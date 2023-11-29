@@ -1,0 +1,17 @@
+{
+    "name": "calimero-wallet-utils-example",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "node index.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "calimero-wallet-utils": "file:../lib/",
+        "near-api-js": "^2.1.4"
+    }
+}
