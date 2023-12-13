@@ -1,5 +1,6 @@
 import { keyStores, Near } from 'near-api-js';
 import * as NearAPI from 'near-api-js';
+
 export interface ICalimeroConfig {
   shardId: string;
   calimeroUrl: string;
