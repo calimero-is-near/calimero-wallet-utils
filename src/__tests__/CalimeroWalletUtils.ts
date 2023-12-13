@@ -6,6 +6,7 @@ test('Verify signature for challenge', async () => {
     shardId: '',
     rpcEndpoint: '',
     calimeroUrl: '',
+    walletNetworkId: '',
   };
   const walletUtils = CalimeroWalletUtils.init(config);
 
@@ -18,7 +19,7 @@ test('Verify signature for challenge', async () => {
 
   let sibObj = await walletUtils.signatureForChallenge(ACCOUNT_ID, signer, 'a mock challenge');
 
-  expect(
-    sibObj.signature.toBe('2V0NPo9caL3oTSSbrHjRKbxM8dgmEBc2A1pZ3hGg6lNTAQYBzPLYu2KtPrKgZAYQ0Z2Xe3jSvKiC4PZ8rwTPBg=='),
+  expect(sibObj.signature).toBe(
+    '2V0NPo9caL3oTSSbrHjRKbxM8dgmEBc2A1pZ3hGg6lNTAQYBzPLYu2KtPrKgZAYQ0Z2Xe3jSvKiC4PZ8rwTPBg==',
   );
 });
