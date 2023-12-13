@@ -1,10 +1,10 @@
 import { keyStores, Near } from 'near-api-js';
 import * as NearAPI from 'near-api-js';
-
 export interface ICalimeroConfig {
   shardId: string;
   calimeroUrl: string;
   rpcEndpoint: string;
+  walletNetworkId: string; // keys stored in keystore under this key
 }
 
 export class CalimeroWalletUtils {
@@ -41,7 +41,7 @@ export class CalimeroWalletUtils {
   }
 
   public async signatureForChallenge(accountId: string, signer: NearAPI.Signer, challenge: string) {
-    const signed = await signer.signMessage(Buffer.from(challenge), accountId, this.config.shardId);
+    const signed = await signer.signMessage(Buffer.from(challenge), accountId, this.config.walletNetworkId);
     const signature = Buffer.from(signed.signature).toString('base64');
     const publicKey = signed.publicKey.toString();
 
@@ -54,7 +54,6 @@ export class CalimeroWalletUtils {
     const encodedSig = Buffer.from(JSON.stringify(signedChallenge)).toString('base64');
     return encodedSig;
   }
-
   public async syncPrivateShardAccount(accountId: string, signer: NearAPI.Signer) {
     const xSignature = await this.generatePrivateShardXSignature(accountId, signer);
     await this.syncAccount(accountId, xSignature);
@@ -66,7 +65,7 @@ export class CalimeroWalletUtils {
         'x-signature': xSignature,
       },
       keyStore,
-      networkId: this.config.shardId,
+      networkId: this.config.walletNetworkId,
       nodeUrl: this.config.rpcEndpoint,
     });
     return calimero;
