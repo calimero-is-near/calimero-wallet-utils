@@ -9,14 +9,21 @@ const PRIVATE_KEY = '';
 const ACCOUNT_ID = ''
 
 const config = {
-  shardId: 'internal-calimero',
+  shardId: 'public-portal-calimero',
   calimeroUrl: 'https://app.calimero.network',
-  rpcEndpoint: 'https://api.calimero.network/api/v1/shards/ws-internal-calimero/neard-rpc/',
+  rpcEndpoint: 'https://api.calimero.network/api/v1/shards/cali-public-portal-calimero/neard-rpc/',
+  walletNetworkId: 'mainnet'
+}
+const aTestnetConfig = {
+  shardId: 'chat-calimero-testnet',
+  calimeroUrl: 'https://alpha.app.staging.calimero.network',
+  rpcEndpoint: 'https://api.staging.calimero.network/api/v1/shards/ws-chat-calimero-testnet/neard-rpc/',
+  walletNetworkId: 'testnet'
 }
 const walletUtils = CalimeroWalletUtils.init(config);
 
 const keyPair = KeyPair.fromString(PRIVATE_KEY);
-const signer = await InMemorySigner.fromKeyPair(config.shardId, ACCOUNT_ID, keyPair);
+const signer = await InMemorySigner.fromKeyPair(config.walletNetworkId, ACCOUNT_ID, keyPair);
 
 // 1) Sync the account to Calimero shard, so that account with same name as on NEAR gets created on Calimero
 try {
@@ -29,7 +36,7 @@ console.log("Account synced to Calimero shard");
 
 const keyStore = new NearAPI.keyStores.InMemoryKeyStore();
 keyStore.setKey(
-  config.shardId,
+  config.walletNetworkId,
   ACCOUNT_ID,
   keyPair,
 );
@@ -49,5 +56,3 @@ console.log(`${config.shardId} latest block: ${block.header.height}`);
 const account = await calimero.account(ACCOUNT_ID);
 const someRandomKeypair = NearAPI.utils.KeyPairEd25519.fromRandom();
 const addKey = await account.addKey(someRandomKeypair.publicKey);
-
-
